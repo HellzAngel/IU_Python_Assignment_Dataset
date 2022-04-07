@@ -14,7 +14,7 @@ from bokeh.layouts import gridplot
 from scipy.optimize import curve_fit #curve fitting
 from pylab import * 
 from sqlalchemy import *
-pd.set_option('mode.chained_assignment', None) #'pandas.options.mode.chained_assignment' setted to none=ignoring the warning
+# pd.set_option('mode.chained_assignment', None) #'pandas.options.mode.chained_assignment' setted to none=ignoring the warning
 
 
 #used pd.read_csv to read all data provided to us for the assignment. In this case is the pandas method to read csv files.
@@ -66,23 +66,23 @@ curdoc().theme = 'dark_minimal'
 output_file('Output.html') #the output file will open in another window (html format)
 output_notebook() #this is to also dysplay the plots in this notebook
 
+from bokeh.plotting import figure,show
 
+# 4 plots will be display
+b_graph1=figure(width=600, height=600,title='X vs Train_Y1 ') #1st graph for X vs Y1
+b_graph1.triangle(Train_X,Train_Y1, size=12, color='cyan', alpha=0.5)
+b_graph2=figure(width=600, height=600,title='X vs Train_Y3 ')#2nd graph for X vs Y3
+b_graph2.circle(Train_X,Train_Y3,size=12, color='yellow', alpha=0.5)
+b_graph3=figure(width=600, height=600,title='X vs Train_Y2')#3rd graph for X vs Y2
+b_graph3.circle(Train_X,Train_Y2,size=12, color='red', alpha=0.5)
+b_graph4=figure(width=600, height=600,title='X vs Train_Y4 ')#4th graph for X vs Y4
+b_graph4.circle(Train_X,Train_Y4,size=12, color='green', alpha=0.5)
 
-# # 4 plots will be display
-# b_graph1=figure(width=600, height=600,title='X vs Train_Y1 ') #1st graph for X vs Y1
-# b_graph1.triangle(Train_X,Train_Y1, size=12, color='cyan', alpha=0.5)
-# b_graph2=figure(width=600, height=600,title='X vs Train_Y3 ')#2nd graph for X vs Y3
-# b_graph2.circle(Train_X,Train_Y3,size=12, color='yellow', alpha=0.5)
-# b_graph3=figure(width=600, height=600,title='X vs Train_Y2')#3rd graph for X vs Y2
-# b_graph3.circle(Train_X,Train_Y2,size=12, color='red', alpha=0.5)
-# b_graph4=figure(width=600, height=600,title='X vs Train_Y4 ')#4th graph for X vs Y4
-# b_graph4.circle(Train_X,Train_Y4,size=12, color='green', alpha=0.5)
-
-# #grouping all plots in a gridformat following 'p = gridplot([[s1, s2], [s3, s3]])'
-# p= gridplot([[b_graph1,b_graph2],[b_graph3,b_graph4]])
-
-# #display plots
-# show(p)
+#grouping all plots in a gridformat following 'p = gridplot([[s1, s2], [s3, s3]])'
+p= gridplot([[b_graph1,b_graph2],[b_graph3,b_graph4]])
+output_file("foo.html")
+#display plots
+show(p)
 
 #The function 'np.polyfit()' is use to find the least square polynomial fit
 Model_A = np.polyfit(Train_X, Train_Y1, 3)
@@ -365,38 +365,38 @@ output_notebook()
 
 #4 plots:
 
-# i_graph1 = figure(width=600, plot_height=600,title="X vs Y1")
-# i_graph1.triangle_pin(Ideal_X, Ideal_data['y' + str(Ideal_Y1[0])], size=10, color='cyan', alpha=0.5)
-# i_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
+i_graph1 = figure(width=600, plot_height=600,title="X vs Y1")
+i_graph1.triangle_pin(Ideal_X, Ideal_data['y' + str(Ideal_Y1[0])], size=10, color='cyan', alpha=0.5)
+i_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
 
-# i_graph2 = figure(width=600, plot_height=600,title="X vs Y2")
-# i_graph2.circle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y2[0])], size=10, color='cyan', alpha=0.5)
-# i_graph2.outline_line_color='yellow'#adding colour to the outsine line of the plot
+i_graph2 = figure(width=600, plot_height=600,title="X vs Y2")
+i_graph2.circle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y2[0])], size=10, color='cyan', alpha=0.5)
+i_graph2.outline_line_color='yellow'#adding colour to the outsine line of the plot
 
-# i_graph3 = figure(width=600, plot_height=600,title="X vs Y3")
-# i_graph3.square_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y3[0])], size=10, color='cyan', alpha=0.5)
-# i_graph3.outline_line_color='yellow'#adding colour to the outsine line of the plot
+i_graph3 = figure(width=600, plot_height=600,title="X vs Y3")
+i_graph3.square_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y3[0])], size=10, color='cyan', alpha=0.5)
+i_graph3.outline_line_color='yellow'#adding colour to the outsine line of the plot
 
-# i_graph4 = figure(width=600, plot_height=600,title="X vs Y4")
-# i_graph4.triangle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y4[0])], size=10, color='cyan', alpha=0.5)
-# i_graph4.outline_line_color='yellow'#adding colour to the outsine line of the plot
-# # make a grid
-# g = gridplot([[i_graph1, i_graph2], [i_graph3, i_graph4]])
+i_graph4 = figure(width=600, plot_height=600,title="X vs Y4")
+i_graph4.triangle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y4[0])], size=10, color='cyan', alpha=0.5)
+i_graph4.outline_line_color='yellow'#adding colour to the outsine line of the plot
+# make a grid
+g = gridplot([[i_graph1, i_graph2], [i_graph3, i_graph4]])
 
 
 
-# show(g)
+show(g)
 
 
 # Plotting test data in Bokeh
 
-# output_file("test_data_plotting.html")
-# output_notebook()
+output_file("test_data_plotting.html")
+output_notebook()
 
-# t_graph1= figure(title="Test X vs Test Y")
-# t_graph1.circle_dot(Test_data['x'], Test_data['y'], size=12, color='red',alpha=0.5 )
-# t_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
-# show(t_graph1)
+t_graph1= figure(title="Test X vs Test Y")
+t_graph1.circle_dot(Test_data['x'], Test_data['y'], size=12, color='red',alpha=0.5 )
+t_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
+show(t_graph1)
 
 #Another way of calculating the least squares regression 
 
