@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt #to plot with matplotlib
 import unittest #for unit testing
 import os
-
 #for mathematical operations
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 #to plot with Bokeh
@@ -14,35 +13,25 @@ from bokeh.layouts import gridplot
 from scipy.optimize import curve_fit #curve fitting
 from pylab import * 
 from sqlalchemy import *
-# pd.set_option('mode.chained_assignment', None) #'pandas.options.mode.chained_assignment' setted to none=ignoring the warning
-
-
-#used pd.read_csv to read all data provided to us for the assignment. In this case is the pandas method to read csv files.
 
 Train_data = pd.read_csv('train.csv') 
 Ideal_data = pd.read_csv('ideal.csv') 
 Test_data = pd.read_csv('test.csv')
-
 #assigning X and Y
-
 Train_X = Train_data['x']
 Ideal_X = Ideal_data['x']
-
 Train_Y1 = Train_data['y1']
 Train_Y2 = Train_data['y2']
 Train_Y3 = Train_data['y3']
 Train_Y4 = Train_data['y4']
 
 #Using matplotlib to plot the training data
-
 fig, axs = plt.subplots(2,2, figsize=(15,15)) # generating the different plots (subplots) at once
 
 #'tight_layout' helps adjusting subplots so they fit into the figure area, 'pad' controls the padding around the figure border & subplots
-
 fig.tight_layout(pad=3)
 
 # Plotting 4 figures, the 'axs[value,value]' allows to place graphs in the desire position
-
 axs[0,0].plot(Train_X, Train_Y1)  
 axs[0,0].set_title('Train_X Vs Train_Y1',)
 axs[1,0].plot(Train_X, Train_Y2, 'tab:red')
@@ -62,11 +51,8 @@ plt.show()
 #Using Bokeh to plot the training data
 
 from bokeh.io import curdoc # importing curdoc to change the theme colour 
-curdoc().theme = 'dark_minimal'
-output_file('Output.html') #the output file will open in another window (html format)
-output_notebook() #this is to also dysplay the plots in this notebook
-
 from bokeh.plotting import figure,show
+curdoc().theme = 'dark_minimal'
 
 # 4 plots will be display
 b_graph1=figure(width=600, height=600,title='X vs Train_Y1 ') #1st graph for X vs Y1
@@ -353,130 +339,35 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(expectedIdealY1, Ideal_Y2)
         self.assertEqual(expectedIdealY1, Ideal_Y3)
         self.assertEqual(expectedIdealY1, Ideal_Y4)
-        
-              
+
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
-
-#Plotting ideal functions using Bokeh
-
-output_file('ideal_functions.html')
-output_notebook()
 
 #4 plots:
 
 i_graph1 = figure(width=600, plot_height=600,title="X vs Y1")
 i_graph1.triangle_pin(Ideal_X, Ideal_data['y' + str(Ideal_Y1[0])], size=10, color='cyan', alpha=0.5)
 i_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
-
 i_graph2 = figure(width=600, plot_height=600,title="X vs Y2")
 i_graph2.circle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y2[0])], size=10, color='cyan', alpha=0.5)
 i_graph2.outline_line_color='yellow'#adding colour to the outsine line of the plot
-
 i_graph3 = figure(width=600, plot_height=600,title="X vs Y3")
 i_graph3.square_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y3[0])], size=10, color='cyan', alpha=0.5)
 i_graph3.outline_line_color='yellow'#adding colour to the outsine line of the plot
-
 i_graph4 = figure(width=600, plot_height=600,title="X vs Y4")
 i_graph4.triangle_dot(Ideal_X, Ideal_data['y' + str(Ideal_Y4[0])], size=10, color='cyan', alpha=0.5)
 i_graph4.outline_line_color='yellow'#adding colour to the outsine line of the plot
 # make a grid
+output_file('ideal_functions.html')
 g = gridplot([[i_graph1, i_graph2], [i_graph3, i_graph4]])
-
-
-
 show(g)
-
 
 # Plotting test data in Bokeh
 
 output_file("test_data_plotting.html")
 output_notebook()
-
 t_graph1= figure(title="Test X vs Test Y")
 t_graph1.circle_dot(Test_data['x'], Test_data['y'], size=12, color='red',alpha=0.5 )
 t_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
 show(t_graph1)
 
-#Another way of calculating the least squares regression 
-
-#calculating m and c, for each Y of the training data, to use formula (prediction=m+X+c) later on
-X_mean = np.mean(Train_X)
-Y1_mean = np.mean(Train_Y1)
-
-num = 0
-den = 0
-for i in range(len(Train_X)):
-               num += (Train_X[i] - X_mean)*(Train_Y1[i] - Y1_mean)
-               den += (Train_X[i] - X_mean)**2
-m1 = num / den
-c1 = Y1_mean - m1*X_mean
-
-
-
-Y2_mean = np.mean(Train_Y2)
-
-num2 = 0
-den2 = 0
-for i in range(len(Train_X)):
-               num += (Train_X[i] - X_mean)*(Train_Y1[i] - Y2_mean)
-               den += (Train_X[i] - X_mean)**2
-m2 = num / den
-c2 = Y2_mean - m2*X_mean
-
-
-Y3_mean = np.mean(Train_Y3)
-
-num3 = 0
-den3 = 0
-for i in range(len(Train_X)):
-               num += (Train_X[i] - X_mean)*(Train_Y3[i] - Y3_mean)
-               den += (Train_X[i] - X_mean)**2
-m3 = num / den
-c3 = Y3_mean - m3*X_mean
-
-
-Y4_mean = np.mean(Train_Y4)
-
-num4 = 0
-den4 = 0
-for i in range(len(Train_X)):
-               num += (Train_X[i] - X_mean)*(Train_Y4[i] - Y4_mean)
-               den += (Train_X[i] - X_mean)**2
-m4 = num / den
-c4 = Y4_mean - m4*X_mean
-
-
-#another way to make predictions and to plot the line of best fit using the formula 'prediction=m+X+c'
-
-Y1_pred = m1*Train_X + c1
-
-plt.scatter(Train_X, Train_Y1) # actual
-plt.plot([min(Train_X), max(Train_X)], [min(Y1_pred), max(Y1_pred)], color='red') # predicted
-plt.suptitle('Train_X vs Y1')
-plt.show()
-print('m1:',m1,'c1:',c1)
-
-Y2_pred=m2*Train_X+c2
-
-plt.scatter(Train_X, Train_Y2) # actual
-plt.plot([min(Train_X), max(Train_X)], [min(Y2_pred), max(Y2_pred)], color='red') # predicted
-plt.suptitle('Train_X vs Y2')
-plt.show()
-print('m2:',m2,'c2:',c2)
-
-Y3_pred=m3*Train_X+c3
-
-plt.scatter(Train_X, Train_Y3) # actual
-plt.plot([min(Train_X), max(Train_X)], [min(Y3_pred), max(Y3_pred)], color='red') # predicted
-plt.suptitle('Train_X vs Y3')
-plt.show()
-print('m3:',m3,'c3:',c3)
-
-Y4_pred=m4*Train_X+c4
-
-plt.scatter(Train_X, Train_Y4) # actual
-plt.plot([min(Train_X), max(Train_X)], [min(Y4_pred), max(Y4_pred)], color='red') # predicted
-plt.suptitle('Train_X vs Y4')
-plt.show()
-print('m4:',m4,'c4:',c4)
