@@ -52,7 +52,7 @@ plt.show()
 
 from bokeh.io import curdoc # importing curdoc to change the theme colour 
 from bokeh.plotting import figure,show
-curdoc().theme = 'dark_minimal'
+curdoc().theme = 'night_sky'
 
 # 4 plots will be display
 b_graph1=figure(width=600, height=600,title='X vs Train_Y1 ') #1st graph for X vs Y1
@@ -313,7 +313,7 @@ class InsertionTestCheck(unittest.TestCase):
         df_test.reset_index(drop=True, inplace=True)
         df_test.columns = Test_data.columns
         self.assertEqual(len(df_test.columns), len(Test_data.columns))
-        pd._testing.assert_frame_equal(df_test, Test_data)
+        pd.testing.assert_frame_equal(df_test, Test_data)
         
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
@@ -361,13 +361,9 @@ i_graph4.outline_line_color='yellow'#adding colour to the outsine line of the pl
 output_file('ideal_functions.html')
 g = gridplot([[i_graph1, i_graph2], [i_graph3, i_graph4]])
 show(g)
-
 # Plotting test data in Bokeh
-
-output_file("test_data_plotting.html")
-output_notebook()
 t_graph1= figure(title="Test X vs Test Y")
 t_graph1.circle_dot(Test_data['x'], Test_data['y'], size=12, color='red',alpha=0.5 )
 t_graph1.outline_line_color='yellow' #adding colour to the outsine line of the plot
+output_file("test_data_plotting.html")
 show(t_graph1)
-
