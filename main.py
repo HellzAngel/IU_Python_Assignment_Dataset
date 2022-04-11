@@ -7,7 +7,7 @@ import os
 #for mathematical operations
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 #to plot with Bokeh
-from bokeh.io import output_notebook, output_file
+from bokeh.io import output_file
 from bokeh.plotting import figure,show
 from bokeh.layouts import gridplot
 from scipy.optimize import curve_fit #curve fitting
